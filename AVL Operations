@@ -1,0 +1,54 @@
+An AVL Tree supports three primary operations: Search, Insertion, and Deletion. Because the tree maintains strict balance, every operation runs in O(log N) time.
+
+Below is a breakdown of how each operation works under the hood.
+
+1. Search Operation
+
+Searching in an AVL tree works identically to a standard Binary Search Tree (BST).
+
+Start at the root node.
+If the target value equals the current node's key, you're done.
+If the target value is smaller, move to the left child.
+If the target value is larger, move to the right child.
+Repeat until you find the value or hit a null reference.
+
+Time Complexity: O(log N) worst-case. Because the height H is strictly bounded by 1.44 log2(N), searching is faster here than in almost any other BST variant.
+
+2. Insertion Operation
+
+Insertion follows a standard BST approach, but backtracks up the tree to update heights and restore balance if needed.
+
+Standard BST Insert: Recursively navigate down to a leaf position and attach the new node.
+Update Heights: On the way back up the call stack, update the height of every ancestor node.
+Calculate Balance Factor (BF): For each ancestor, check BF = Height(Left) - Height(Right).
+Rebalance (if |BF| > 1): Identify the imbalance type and apply the appropriate rotation:
+
+
+Case 1 (LL): BF > 1 and new node was inserted in left child's left subtree -> Single Right Rotation.
+Case 2 (RR): BF < -1 and new node was inserted in right child's right subtree -> Single Left Rotation.
+Case 3 (LR): BF > 1 and new node was inserted in left child's right subtree -> Left Rotation on left child, then Right Rotation on root.
+Case 4 (RL): BF < -1 and new node was inserted in right child's left subtree -> Right Rotation on right child, then Left Rotation on root.
+
+Note: At most one or two rotations are ever required to rebalance the entire tree after an insertion.
+
+3. Deletion Operation
+
+Deletion is slightly more complex because removing a node can trigger multiple rebalances up the tree to the root.
+
+Standard BST Delete:
+
+
+0 children (Leaf): Simply remove the node.
+1 child: Replace the node with its child.
+2 children: Find the Inorder Successor (smallest node in the right subtree) or Inorder Predecessor (largest node in the left subtree), copy its value into the target node, and delete that successor/predecessor instead.
+Update Heights & Check BF: Backtrack toward the root, updating node heights.
+Rebalance: If a node becomes unbalanced (|BF| > 1), perform rotations similar to insertion. Unlike insertion, removing a node can cause cascade imbalances, so you may need up to O(log N) rotations along the path to the root.
+
+Summary of Operation Complexities
+
+| Operation | Time Complexity | Auxiliary Space | Max Rotations Required |
+| ---       | ---              | ---            | ---                    |
+| Search    |   O(log N)       |      O(1)      |          0             |
+| Insertion |    O(log N)      |    O(log N)    |      At most 2         |
+| Deletion  |    O(log N)      |    O(log N)    |    Up to O(log N)      |
+
