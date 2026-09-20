@@ -1,0 +1,36 @@
+# Red-Black Tree (RBT)
+
+A Red-Black Tree is a self-balancing Binary Search Tree that maintains balance using node colors (Red or Black) and 5 strict color rules instead of height calculations.
+
+---
+
+## 1. The 5 Golden Rules
+
+1. Every node is either RED or BLACK.
+2. The root of the tree is always BLACK.
+3. Every leaf node (NIL / Null pointer) is BLACK.
+4. A RED node cannot have a RED parent (No double red).
+5. For every node, all simple paths from that node to any leaf contain the exact same number of BLACK nodes.
+
+---
+
+## 2. Table: Insertion Violation Fixes
+
+| Uncle Color | Violation Solution |
+| :--- | :--- |
+| Uncle is RED | Recolor: Parent and Uncle become BLACK, Grandparent becomes RED. Re-check from Grandparent up. |
+| Uncle is BLACK (or NIL) | Rotate + Recolor: Perform rotation (LL, RR, LR, RL) and swap colors of Parent and Grandparent. |
+
+---
+
+## 3. Table: AVL Tree vs. Red-Black Tree
+
+| Feature | AVL Tree | Red-Black Tree |
+| :--- | :--- | :--- |
+| Balance Criteria | Strict (Height diff <= 1) | Loose (Longest path <= 2x Shortest path) |
+| Tree Height | ~ 1.44 * log2(N) | ~ 2.0 * log2(N) |
+| Search Speed | Faster | Slightly Slower |
+| Insert / Delete Speed | Slower (frequent rotations) | Faster (fewer rotations) |
+| Rotations per Insert | At most 2 rotations | At most 2 rotations |
+| Rotations per Delete | Up to O(log N) rotations | At most 3 rotations |
+| Primary Use Case | Read-Heavy Workloads | Write-Heavy / General Purpose Libraries |
